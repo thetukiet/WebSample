@@ -7,3 +7,5 @@ Simple MVC Web project include something:
 - Apply Validation for both server & client sides
  + Client side: custom jQuery.Validation
  + Server side: custom attribute
+
+(In updating)
