@@ -1,0 +1,27 @@
+
+          CUSTOM BUILD GUIDE-LINEs
+===================***======================
+
+- This build setup is use for Continuous Integration environment. It also helps you quickly prepare test package.
+
+- Check if the current configuration value in the file "/Build/Local.Properties.Build" is suitable with your building environment. 
+If not change it with your correct values.
+
+- Use batch command file named "BuildSource.bat" to quick build Source. It includes:
+	+ Get NuGet packages
+	+ Build Source 
+	+ Run Unit-tests	
+
+  
+- You can open "Command prompt" at "Build" folder to run some following common build tasks:	
+	+ build all			: Called in batch file "BuildSource.bat"
+	+ build help		: Show build help. You can find more guide lines for orther build tasks here
+
+	
+-------------------------------------------
+
+***NOTE: 
+- NAnt custom-build is case-sensitive
+- In case build tool with NAnt says "Unable to find version of package". 
+Go to folder "C:\Users\UserName\AppData\Roaming\NuGet\". Clear all existing files here then restart the build
+	

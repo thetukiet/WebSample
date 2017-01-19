@@ -1,0 +1,28 @@
+﻿@using WebSample.Resources
+@model WebSample.ViewModels.UserViewModel
+@{
+    ViewBag.Title = " Page";
+}
+<div class="jumbotron">
+    <h2>REGISTER SUCCESSFULL</h2>
+</div>
+
+<div class="form-horizontal">
+    <div class="form-group">
+        <label class="col-md-10 normal-weight">
+            Account <b>@Model.FirstName @Model.LastName</b> was created successfully with information as below:
+        </label>
+    </div>
+    <div class="form-group">
+        <label class="col-md-10 normal-weight">
+            @(string.Format("- Email: {0}", Model.Email))
+        </label>
+    </div>
+    <div class="form-group">
+        <label class="col-md-10 normal-weight">
+            @(string.Format("- Date of birth: {0}", Model.DoB.Value.ToString("dd/MM/yyyy")))
+        </label>
+    </div>
+</div><br/>
+
+<p><a href="~/account/register" class="btn btn-primary btn-lg">@Labels.RegisterMore</a></p>

@@ -1,0 +1,99 @@
+﻿@using WebSample.Resources
+@model WebSample.ViewModels.UserViewModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form", id="account-form" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Create a new account</h4>
+    <hr />
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control field" })
+            @Html.ValidationMessageFor(model => model.Email,"", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control field" })
+            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.LastName, new {@class = "col-md-2 control-label"})
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.LastName, new {@class = "form-control field" })
+            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.DoB, new {@class = "col-md-2 control-label"})
+        <div class="col-md-10" id="date-selector-container">
+            <select select-type="day" class="form-control date-selector"></select>
+            <select select-type="month" class="form-control date-selector"></select>
+            <select select-type="year" class="form-control date-selector"></select><br/>
+            @Html.HiddenFor(m => m.DoB, new {@class = "form-control dob-input"})
+            @Html.ValidationMessageFor(model => model.DoB, "", new {@class = "text-danger"})
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-primary" value="@Labels.Submit" />
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/custom")
+
+    <script type="text/javascript">
+        $("#account-form").validate({
+            ignore: "",
+            rules: {
+                FirstName: { required: true },
+                LastName: { required: true },
+                Email: {
+                    required: true,
+                    email: true
+                },
+                DoB: {
+                    required: true,
+                    //min_age: { value: 18, format: 'm/d/yyyy' }
+                    //min_age: { value: 15 }
+                    min_age: 15
+                }
+            },
+            messages: {
+                FirstName: "@(String.Format(ErrorMessages.RequiredFieldMissed, Labels.FirstName))",
+                LastName: "@(String.Format(ErrorMessages.RequiredFieldMissed, Labels.LastName))",
+                DoB: {
+                    required: "@(String.Format(ErrorMessages.RequiredFieldMissed, Labels.DoB))",
+                    min_age2: "@(String.Format(ErrorMessages.AgeNotMatched, 18))"
+                },
+                Email: {
+                    required: "@(String.Format(ErrorMessages.RequiredFieldMissed, Labels.Email))",
+                    email: "@ErrorMessages.InvalidEmailAddress"
+                }
+            },
+            showErrors: function() {
+                this.defaultShowErrors();
+                $('span.field-validation-error').remove();
+            }
+        });
+
+        $(document).ready(function () {
+            $('#date-selector-container').initDateSelectors({
+                realDateElement: $('#DoB')
+            });
+        });
+    </script>
+}
