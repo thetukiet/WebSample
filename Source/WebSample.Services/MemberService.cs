@@ -34,7 +34,7 @@ namespace WebSample.Services
             */
 
             // Assuming this command has been done successfully.
-            return 0;
+            return 1;
         }
 
         public Member GetMemberById(int memberId)

@@ -1,5 +1,7 @@
 ﻿using System.Web.Mvc;
+using WebSample.Data.Entities;
 using WebSample.Helpers;
+using WebSample.Services;
 using WebSample.ViewModels;
 
 namespace WebSample.Controllers
@@ -7,6 +9,13 @@ namespace WebSample.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        private readonly IMemberService _memberService;
+
+        public AccountController(IMemberService memberService)
+        {
+            _memberService = memberService;
+        }
+
         [HttpGet]
         [AllowAnonymous]
         public ActionResult Index(UserViewModel model)
@@ -27,7 +36,15 @@ namespace WebSample.Controllers
         {
             if (ModelState.IsValid)
             {
-                return RedirectToAction("Index", model.ToRouteValueDictionary());
+                var newMember = new Member
+                {
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Email = model.Email,
+                    DoB = model.DoB.Value
+                };
+                if(_memberService.InsertOrUpdateMember(newMember) > 0)
+                    return RedirectToAction("Index", model.ToRouteValueDictionary());
             }            
             return View(model);
         }        
